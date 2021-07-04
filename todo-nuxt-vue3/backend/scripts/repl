@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -eu
+
+cd "$(dirname "$(cd "$(dirname "${BASH_SOURCE:-$0}")" && pwd)")"
+
+./gradlew shadowJar testShadowJar
+
+kotlinc-jvm -cp "$(pwd)/build/libs/app-all.jar:$(pwd)/build/libs/app-tests.jar"
