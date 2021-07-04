@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  db:
+    build:
+      context: ./
+      dockerfile: db.Dockerfile
+    container_name: todo-nuxt-vue3-db
+    hostname: db
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    volumes:  
+      - 15840fd77b45e8fb92fcc0eb:/var/lib/mysql
+      - 799a06014f8f9c0665b3338e:/var/run/mysqld
+      - ./dbaccess.cnf:/dbaccess.cnf
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: todo_nuxt_vue3
+      MYSQL_ROOT_PASSWORD: password
+  
+volumes:
+  # database data
+  15840fd77b45e8fb92fcc0eb:
+  # database socket
+  799a06014f8f9c0665b3338e:
