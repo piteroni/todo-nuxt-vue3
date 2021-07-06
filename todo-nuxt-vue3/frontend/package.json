@@ -10,8 +10,10 @@
     "test": "jest"
   },
   "dependencies": {
+    "@nuxtjs/composition-api": "^0.24.6",
     "core-js": "^3.15.1",
-    "nuxt": "^2.15.7"
+    "nuxt": "^2.15.7",
+    "vue-composable": "^1.0.0-beta.23"
   },
   "devDependencies": {
     "@nuxt/types": "^2.15.7",
