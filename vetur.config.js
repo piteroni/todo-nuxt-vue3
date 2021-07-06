@@ -4,6 +4,6 @@ module.exports = {
     "vetur.experimental.templateInterpolationService": true
   },
   projects: [
-    { root: "./src/frontend" }
+    { root: "./todo-nuxt-vue3/frontend" }
   ]
 }
