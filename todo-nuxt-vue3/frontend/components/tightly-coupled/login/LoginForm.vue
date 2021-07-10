@@ -56,20 +56,21 @@
           </p>
 
           <p
-            v-if="form.password.$dirty && form.password.$anyInvalid"
+            v-if="message"
             class="w-full mt-2 text-red-500 text-xs transition-all duration-200"
           >
-            <!-- {{ form.password.required.$message }} -->
+            {{ message }}
           </p>
         </div>
       </div>
 
       <div class="flex items-center justify-center">
         <button
+          @click="login"
           class="bg-blue-500 flex text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:opacity-80 transition-all duration-300"
           type="button"
         >
-          <circle v-if="isLoggedIn" />
+          <app-circle v-if="isLoggedIn" />
           ログイン
         </button>
       </div>
@@ -78,19 +79,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "@nuxtjs/composition-api"
+import { defineComponent, ref, useContext, inject } from "@nuxtjs/composition-api"
+import { AxiosError } from "axios"
 import { useValidation } from "vue-composable"
 import { required } from "@/shared/validation"
-import Circle from "@/components/basic/Circle.vue"
+import { authenticationTokenKey, AuthenticationToken } from "@/hooks/authenticationToken"
+import { HttpStatusCode } from "@/shared/http"
+import AppCircle from "@/components/basic/AppCircle.vue"
 
 export default defineComponent({
   components: {
-    "circle": Circle
+    "app-circle": AppCircle
   },
   setup() {
+    const { redirect } = useContext()
+
     const email = ref("")
     const password = ref("")
+    const message = ref("")
     const isLoggedIn = ref(false)
+
+    const { fetch } = inject(authenticationTokenKey) as AuthenticationToken
 
     const form = useValidation({
       email: {
@@ -109,8 +118,48 @@ export default defineComponent({
       }
     })
 
+    const login = async (): Promise<void> => {
+      message.value = ""
+
+      if (form.$anyInvalid) {
+        return
+      }
+
+      isLoggedIn.value = true
+
+      try {
+        await fetch(email.value, password.value)
+      } catch (e) {
+        if (!e.isAxiosError) {
+          throw e
+        }
+
+        const ex: AxiosError = e
+
+        if (typeof ex.response === "undefined") {
+          throw e
+        }
+
+        switch (ex.response.status) {
+          case HttpStatusCode.UNPROCESSABLE_ENTITY:
+          case HttpStatusCode.UNAUTHORIZED:
+            message.value = ex.response.data.message
+            return
+          default:
+            console.error(ex)
+            return
+        }
+      } finally {
+        isLoggedIn.value = false
+      }
+
+      redirect("/tasks")
+    }
+
     return {
       form,
+      login,
+      message,
       isLoggedIn,
     }
   }

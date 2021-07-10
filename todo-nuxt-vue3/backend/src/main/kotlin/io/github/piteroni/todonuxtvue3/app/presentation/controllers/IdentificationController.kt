@@ -36,7 +36,7 @@ class IdentificationController(private val jwt: JWT, private val userUseCase: Us
         } catch (exception: AuthenticateInputDataException) {
             throw UnprocessableEntityException(exception.message!!, exception)
         } catch (exception: AuthenticationException) {
-            throw UnauthorizedException(exception)
+            throw UnauthorizedException("Incorrect email address or password", exception)
         }
 
         val token = jwt.createToken(userId)
