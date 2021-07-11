@@ -10,10 +10,13 @@
     "test": "jest"
   },
   "dependencies": {
+    "@nuxtjs/auth-next": "5.0.0-1624817847.21691f1",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/composition-api": "^0.24.6",
+    "@types/jest": "^26.0.24",
     "axios": "^0.21.1",
     "core-js": "^3.15.1",
+    "flush-promises": "^1.0.2",
     "nuxt": "^2.15.7",
     "vue-composable": "^1.0.0-beta.23"
   },

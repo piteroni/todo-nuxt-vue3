@@ -40,7 +40,8 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -50,6 +51,27 @@ export default {
   // https://axios.nuxtjs.org/options/
   axios: {
     // for auth middleware
-    baseURL: 'http://localhost:8080',
+    baseURL: 'http://localhost:8080/api/i/v0',
   },
+
+  router: {
+    middleware: ['auth']
+  },
+
+  auth: {
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      home: '/tasks'
+    },
+    strategies: {
+      cookie: {
+        endpoints: {
+          login: { url: '/login', method: 'post' },
+          logout: false,
+          user: false
+        },
+      }
+    }
+  }
 }

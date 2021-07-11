@@ -67,7 +67,7 @@
       <div class="flex items-center justify-center">
         <button
           @click="login"
-          class="bg-blue-500 flex text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:opacity-80 transition-all duration-300"
+          class="loginButton bg-blue-500 flex text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:opacity-80 transition-all duration-300"
           type="button"
         >
           <app-circle v-if="isLoggedIn" />
@@ -79,11 +79,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useContext, inject } from "@nuxtjs/composition-api"
+import { defineComponent, ref, useContext } from "@nuxtjs/composition-api"
 import { AxiosError } from "axios"
 import { useValidation } from "vue-composable"
 import { required } from "@/shared/validation"
-import { authenticationTokenKey, AuthenticationToken } from "@/hooks/authenticationToken"
 import { HttpStatusCode } from "@/shared/http"
 import AppCircle from "@/components/basic/AppCircle.vue"
 
@@ -92,14 +91,12 @@ export default defineComponent({
     "app-circle": AppCircle
   },
   setup() {
-    const { redirect } = useContext()
+    const { $auth } = useContext()
 
     const email = ref("")
     const password = ref("")
     const message = ref("")
     const isLoggedIn = ref(false)
-
-    const { fetch } = inject(authenticationTokenKey) as AuthenticationToken
 
     const form = useValidation({
       email: {
@@ -128,7 +125,12 @@ export default defineComponent({
       isLoggedIn.value = true
 
       try {
-        await fetch(email.value, password.value)
+        await $auth.login({
+          data: {
+            email: email.value,
+            password: password.value
+          }
+        })
       } catch (e) {
         if (!e.isAxiosError) {
           throw e
@@ -152,8 +154,6 @@ export default defineComponent({
       } finally {
         isLoggedIn.value = false
       }
-
-      redirect("/tasks")
     }
 
     return {
