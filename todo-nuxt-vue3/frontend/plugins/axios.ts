@@ -12,24 +12,22 @@ export default function ({ $axios, error }: Context): void {
   $axios.setHeader("Content-Type", "application/json")
 
   $axios.onError(e => {
-    if (typeof e.response === "undefined") {
+    // when network error
+    if (!e.response) {
       console.error(e)
+      error({ message: e.message })
 
-      return error({
-        message: e.message
-      })
+      return
     }
 
-    const status = e.response?.status ?? HttpStatusCode.INTERNAL_SERVER_ERROR
+    const status = e.response.status
 
     if (
       (!legalStatuses.includes(status) && range(400, 499).includes(status)) ||
         range(500, 503).includes(status)
     ) {
-      error({ message: `
-        An error occurred in the application and your page could not be served,
-        If you are the application owner, check your logs for details
-      ` })
+      console.error(e)
+      error({ message: "HTTP ERROR" })
     }
   })
 }

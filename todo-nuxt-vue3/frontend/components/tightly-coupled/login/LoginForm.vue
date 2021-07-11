@@ -138,7 +138,11 @@ export default defineComponent({
           return console.error(e)
         }
 
-        const response = (e as AxiosError).response!!
+        const response = (e as AxiosError).response
+
+        if (!response) {
+          return
+        }
 
         switch (response.status) {
           case HttpStatusCode.UNPROCESSABLE_ENTITY:

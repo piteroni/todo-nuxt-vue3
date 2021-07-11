@@ -164,4 +164,33 @@ describe("ログインフォーム", () => {
     expect(stderr).toBeCalledTimes(1)
     expect(stderr.mock.calls[0][0]).toBeInstanceOf(Error)
   })
+
+  it("ログイン中にネットワークエラーが発生した場合に、コンポーネント側で例外のハンドリングは特段行われない", async () => {
+    const throwAxiosError = () => {
+      throw createMock(AxiosErrorStub, {
+        isAxiosError: true,
+        response: undefined
+      })
+    }
+
+    const loginMock = jest.fn(throwAxiosError)
+    const loginForm = mount(LoginForm, {
+      localVue,
+      mocks: {
+        $nuxt: {
+          context: {
+            $auth: {
+              login: loginMock,
+            },
+          }
+        }
+      }
+    })
+
+    await loginForm.find("#email").setValue("user@example.com")
+    await loginForm.find("#password").setValue("password1!")
+    await loginForm.find(".loginButton").trigger("click")
+
+    expect(loginMock).toBeCalledTimes(1)
+  })
 })
