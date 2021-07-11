@@ -66,9 +66,9 @@
 
       <div class="flex items-center justify-center">
         <button
-          @click="login"
           class="loginButton bg-blue-500 flex text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:opacity-80 transition-all duration-300"
           type="button"
+          @click="login"
         >
           <app-circle v-if="isLoggedIn" />
           ログイン

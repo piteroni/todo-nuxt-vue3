@@ -6,7 +6,7 @@ import { isClass } from "@/shared/util"
  * 例外を発生させ、処理を失敗させる.
  */
 export const fail = (): void => {
-  throw new Error()
+  throw new Error("fail")
 }
 
 /**

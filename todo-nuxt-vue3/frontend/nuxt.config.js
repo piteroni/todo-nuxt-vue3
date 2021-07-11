@@ -1,18 +1,18 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'todo-nuxt-vue3',
+    title: "todo-nuxt-vue3",
     htmlAttrs: {
-      lang: 'en'
+      lang: "en"
     },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { hid: "description", name: "description", content: "" },
+      { name: "format-detection", content: "telephone=no" }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" }
     ]
   },
 
@@ -22,7 +22,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/axios'
+    "~/plugins/axios"
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -31,42 +31,53 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/typescript
-    '@nuxt/typescript-build',
+    "@nuxt/typescript-build",
     // https://go.nuxtjs.dev/tailwindcss
-    '@nuxtjs/tailwindcss',
+    "@nuxtjs/tailwindcss",
     // https://composition-api.nuxtjs.org
-    '@nuxtjs/composition-api/module'
+    "@nuxtjs/composition-api/module"
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    "@nuxtjs/axios",
+    "@nuxtjs/auth-next"
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    extend(config, ctx) {
+      // Run ESLint on save
+      if (ctx.isDev && ctx.isClient) {
+        config.module.rules.push({
+          enforce: "pre",
+          test: /\.(js|vue)$/,
+          loader: "eslint-loader",
+          exclude: /(node_modules)/
+        })
+      }
+    }
   },
 
   // https://axios.nuxtjs.org/options/
   axios: {
-    baseURL: 'http://localhost:8080/api/i/v0',
+    baseURL: "http://localhost:8080/api/i/v0",
   },
 
   router: {
-    middleware: ['auth']
+    middleware: ["auth"]
   },
 
   auth: {
     redirect: {
-      login: '/login',
-      logout: '/login',
-      home: '/tasks'
+      login: "/login",
+      logout: "/login",
+      home: "/tasks"
     },
     strategies: {
       cookie: {
         endpoints: {
-          login: { url: '/login', method: 'post' },
+          login: { url: "/login", method: "post" },
           logout: false,
           user: false
         },
