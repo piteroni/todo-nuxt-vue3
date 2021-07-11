@@ -26,7 +26,7 @@ export default {
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: true,
+  components: false,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
@@ -50,7 +50,6 @@ export default {
 
   // https://axios.nuxtjs.org/options/
   axios: {
-    // for auth middleware
     baseURL: 'http://localhost:8080/api/i/v0',
   },
 

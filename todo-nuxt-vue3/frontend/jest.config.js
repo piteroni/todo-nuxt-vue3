@@ -11,14 +11,17 @@ module.exports = {
     'json'
   ],
   transform: {
-    "^.+\\.ts$": "ts-jest",
+    '^.+\\.ts$': 'ts-jest',
     '^.+\\.js$': 'babel-jest',
     '.*\\.(vue)$': 'vue-jest'
   },
   collectCoverage: true,
-  collectCoverageFrom: [
-    '<rootDir>/components/**/*.vue',
-    '<rootDir>/pages/**/*.vue'
+  testPathIgnorePatterns: [
+    '/node_modules/'
+  ],
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    'shared/'
   ],
   testEnvironment: 'jsdom'
 }

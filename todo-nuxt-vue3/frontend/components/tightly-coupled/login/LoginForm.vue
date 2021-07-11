@@ -24,7 +24,7 @@
 
           <p
             v-if="form.email.$dirty && form.email.$anyInvalid"
-            class="w-full mt-2 text-red-500 text-xs transition-all duration-200"
+            class="emailErrorMessage w-full mt-2 text-red-500 text-xs transition-all duration-200"
           >
             {{ form.email.required.$message }}
           </p>
@@ -50,14 +50,14 @@
 
           <p
             v-if="form.password.$dirty && form.password.$anyInvalid"
-            class="w-full mt-2 text-red-500 text-xs transition-all duration-200"
+            class="passwordErrorMessage w-full mt-2 text-red-500 text-xs transition-all duration-200"
           >
             {{ form.password.required.$message }}
           </p>
 
           <p
             v-if="message"
-            class="w-full mt-2 text-red-500 text-xs transition-all duration-200"
+            class="errorMessage w-full mt-2 text-red-500 text-xs transition-all duration-200"
           >
             {{ message }}
           </p>
@@ -91,7 +91,7 @@ export default defineComponent({
     "app-circle": AppCircle
   },
   setup() {
-    const { $auth } = useContext()
+    const { $auth, error } = useContext()
 
     const email = ref("")
     const password = ref("")
@@ -116,6 +116,7 @@ export default defineComponent({
     })
 
     const login = async (): Promise<void> => {
+      form.$touch()
       message.value = ""
 
       if (form.$anyInvalid) {
@@ -133,22 +134,16 @@ export default defineComponent({
         })
       } catch (e) {
         if (!e.isAxiosError) {
-          throw e
+          error({ message: e.message })
+          return console.error(e)
         }
 
-        const ex: AxiosError = e
+        const response = (e as AxiosError).response!!
 
-        if (typeof ex.response === "undefined") {
-          throw e
-        }
-
-        switch (ex.response.status) {
+        switch (response.status) {
           case HttpStatusCode.UNPROCESSABLE_ENTITY:
           case HttpStatusCode.UNAUTHORIZED:
-            message.value = ex.response.data.message
-            return
-          default:
-            console.error(ex)
+            message.value = response.data.message
             return
         }
       } finally {
