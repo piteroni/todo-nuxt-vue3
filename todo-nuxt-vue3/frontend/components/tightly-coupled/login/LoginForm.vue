@@ -149,6 +149,8 @@ export default defineComponent({
           case HttpStatusCode.UNAUTHORIZED:
             message.value = response.data.message
             return
+          default:
+            return
         }
       } finally {
         isLoggedIn.value = false
