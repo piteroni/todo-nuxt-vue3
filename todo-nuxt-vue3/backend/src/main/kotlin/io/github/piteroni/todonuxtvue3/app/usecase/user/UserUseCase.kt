@@ -4,6 +4,8 @@ import io.github.piteroni.todonuxtvue3.app.domain.DomainException
 import io.github.piteroni.todonuxtvue3.app.domain.user.Email
 import io.github.piteroni.todonuxtvue3.app.domain.user.Password
 import io.github.piteroni.todonuxtvue3.app.domain.user.RawPassword
+import io.github.piteroni.todonuxtvue3.app.domain.user.UserId
+import io.github.piteroni.todonuxtvue3.app.domain.user.UserProfile
 import io.github.piteroni.todonuxtvue3.app.domain.user.UserRepository
 import org.mindrot.jbcrypt.BCrypt
 
@@ -35,5 +37,19 @@ class UserUseCase(private val userRepository: UserRepository) {
         }
 
         return user.id.value
+    }
+
+    /**
+     * Retrieve profiles for users that match the specified user ID.
+     *
+     * @param inputData
+     * @return Profile of the specified user.
+     * @throws UserNotPresentException
+     */
+    fun getUserProfile(inputData: UserProfileAcquisitionInputData): UserProfile {
+        val userId = UserId(inputData.userId)
+
+        return userRepository.find(userId)?.profile
+            ?: throw UserNotPresentException("specified user does not exist. userId = $userId")
     }
 }

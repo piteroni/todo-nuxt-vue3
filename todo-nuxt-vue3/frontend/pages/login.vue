@@ -9,6 +9,6 @@ import LoginForm from "@/components/tightly-coupled/login/LoginForm.vue"
 export default defineComponent({
   components: {
     "login-form": LoginForm
-  }
+  },
 })
 </script>

@@ -25,5 +25,5 @@ class UserDataSource(id: EntityID<Int>) : IntEntity(id) {
     var createdAt by UserMapper.createdAt
     var updatedAt by UserMapper.updatedAt
 
-    fun asUser() = User.reconstruct(id.value, email, password)
+    fun asUser() = User.reconstruct(id.value, email, password, name)
 }

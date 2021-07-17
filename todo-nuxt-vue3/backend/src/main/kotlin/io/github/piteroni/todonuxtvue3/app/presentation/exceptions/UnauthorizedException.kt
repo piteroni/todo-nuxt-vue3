@@ -9,6 +9,7 @@ class UnauthorizedException : HttpException {
         statusCode = HttpStatusCode.Unauthorized
     }
 
+    constructor() : super(defaultMessage)
     constructor(cause: Throwable) : super(defaultMessage, cause)
     constructor(message: String?, cause: Throwable?) : super(message, cause)
     constructor(uri: String, httpMethod: String, message: String, cause: Throwable) : super(uri, httpMethod, message, cause)

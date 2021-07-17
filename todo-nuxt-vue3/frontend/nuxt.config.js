@@ -3,7 +3,7 @@ export default {
   head: {
     title: "todo-nuxt-vue3",
     htmlAttrs: {
-      lang: "en"
+      lang: "ja"
     },
     meta: [
       { charset: "utf-8" },
@@ -65,11 +65,21 @@ export default {
     },
     strategies: {
       cookie: {
+        token: {
+          property: "token",
+          global: true,
+          required: true,
+          type: "Bearer"
+        },
+        user: {
+          property: "user",
+          autoFetch: true
+        },
         endpoints: {
           login: { url: "/login", method: "post" },
           logout: false,
-          user: false
-        },
+          user: { url: "/auth/user", method: "get" }
+        }
       }
     }
   }
