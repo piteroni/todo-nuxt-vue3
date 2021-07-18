@@ -10,7 +10,9 @@
       </span>
     </navbar>
 
-    <Nuxt />
+    <div class="px-12 w-full flex">
+      <Nuxt />
+    </div>
   </div>
 </template>
 
