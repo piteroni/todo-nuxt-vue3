@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RetainedTaskCreateRequest(val name: String) : HttpRequest {
-    private val nameSize = 256
+    private val nameSize = 80
 
     override fun validate() {
         if (name.length > nameSize) {
