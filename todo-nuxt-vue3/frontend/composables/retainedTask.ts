@@ -14,7 +14,9 @@ const state: State = reactive({
   tasks: []
 })
 
-const sync = (state: State) => (tasks: RetainedTask[]) => {
+const fetch = (state: State, $axios: NuxtAxiosInstance) => async () => {
+  const tasks = await $axios.$get<RetainedTask[]>("/users/current/tasks")
+
   state.tasks = tasks
 }
 
@@ -35,7 +37,7 @@ export function useRetainedTask() {
 
   return {
     tasks: computed(() => state.tasks),
-    sync: sync(state),
+    fetch: fetch(state, $axios),
     createTask: createTask(state, $axios),
     deleteTask: deleteTask(state, $axios)
   }
