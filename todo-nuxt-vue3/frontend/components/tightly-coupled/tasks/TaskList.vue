@@ -1,18 +1,20 @@
 <template>
   <div class="mt-12">
-    <p class="pb-6 mt-1 text-lg text-gray-500">
+    <p class="pb-6 mt-1 text-base text-gray-500">
       タスク一覧
     </p>
 
-    <ul class="ml-6 taskList list-disc">
-      <li v-for="(task, index) in tasks" :key="index" class="task flex mb-2">
-        <div class="taskName w-96 overflow-hidden">
-          {{ task.name }}
-        </div>
+    <ul class="ml-6 list-disc">
+      <li v-for="(task, index) in tasks" :key="index" class="mb-2">
+        <div class="flex">
+          <div class="taskName w-96 overflow-hidden">
+            {{ task.name }}
+          </div>
 
-        <div class="my-auto ml-4">
-          <div @click="() => deleteTask(task.id)">
-            <app-trash />
+          <div class="my-auto ml-4">
+            <div @click="() => deleteTask(task.id)">
+              <app-trash />
+            </div>
           </div>
         </div>
       </li>

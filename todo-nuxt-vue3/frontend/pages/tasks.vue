@@ -1,8 +1,8 @@
 <template>
   <retained-task-provider>
     <retained-task-list-fetcher>
-      <task-list />
       <task-create-form />
+      <task-list />
     </retained-task-list-fetcher>
   </retained-task-provider>
 </template>

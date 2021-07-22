@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, useContext, useFetch } from "@nuxtjs/composition-api"
+import { defineComponent, inject, useContext } from "@nuxtjs/composition-api"
 import { RetainedTask, retainedTaskKey } from "@/composables/retainedTask"
 
 export default defineComponent({
@@ -14,11 +14,7 @@ export default defineComponent({
 
     const { sync } = inject(retainedTaskKey)!!
 
-    const { fetch } = useFetch(async () => {
-      sync(await $axios.$get<RetainedTask[]>("/users/current/tasks"))
-    })
-
-    fetch()
+    $axios.$get<RetainedTask[]>("/users/current/tasks").then(b => sync(b))
   }
 })
 </script>

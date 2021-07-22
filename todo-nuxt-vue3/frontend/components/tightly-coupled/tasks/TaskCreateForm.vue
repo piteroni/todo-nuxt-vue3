@@ -1,19 +1,17 @@
 <template>
   <div class="mt-12">
-    <p class="pb-6 mt-1 text-lg text-gray-500">
+    <p class="pb-2 mt-1 text-base text-gray-500">
       タスク登録
     </p>
 
     <div class="flex items-center">
-      <div class="mb-3">
-        <input
-          id="taskName"
-          v-model="form.taskName.$value"
-          :class="{ 'border-red-500 focus:border-red-500': form.taskName.$dirty && form.taskName.$anyInvalid }"
-          class="w-72 appearance-none blocktext-gray-700 py-3 px-2 bg-transparent border-gray-300 border-b-2 outline-none rounded leading-tight focus:border-gray-500 transition-all duration-200"
-          type="text"
-        >
-      </div>
+      <input
+        id="taskName"
+        v-model="form.taskName.$value"
+        :class="{ 'border-red-500 focus:border-red-500': form.taskName.$dirty && form.taskName.$anyInvalid }"
+        class="w-96 appearance-none blocktext-gray-700 py-3 px-2 bg-transparent border-gray-300 border-b-2 outline-none rounded leading-tight focus:border-gray-500 transition-all duration-200"
+        type="text"
+      >
 
       <div class="ml-3">
         <div @click="createTask">
