@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent, provide } from "@nuxtjs/composition-api"
-import { RetainedTask, retainedTaskKey, useRetainedTask } from "./retainedTask"
+import { retainedTaskKey, useRetainedTask } from "./retainedTask"
 
 export default defineComponent({
   setup() {
