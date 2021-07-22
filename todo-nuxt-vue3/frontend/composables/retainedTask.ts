@@ -24,13 +24,20 @@ const createTask = (state: State, $axios: NuxtAxiosInstance) => async (taskName:
   state.tasks.push(response.data)
 }
 
+const deleteTask = (state: State, $axios: NuxtAxiosInstance) => async (id: number) => {
+  await $axios.delete(`/users/current/tasks/${id}`)
+
+  state.tasks = state.tasks.filter(task => task.id !== id)
+}
+
 export function useRetainedTask() {
   const { $axios } = useContext()
 
   return {
     tasks: computed(() => state.tasks),
     sync: sync(state),
-    createTask: createTask(state, $axios)
+    createTask: createTask(state, $axios),
+    deleteTask: deleteTask(state, $axios)
   }
 }
 

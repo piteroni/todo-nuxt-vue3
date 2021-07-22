@@ -42,9 +42,9 @@
 
 <script lang="ts">
 import { AxiosError } from "axios"
-import { defineComponent, ref, useContext } from "@nuxtjs/composition-api"
+import { defineComponent, ref, useContext, inject } from "@nuxtjs/composition-api"
 import { useValidation } from "vue-composable"
-import { useRetainedTask } from "@/composables/retainedTask"
+import { retainedTaskKey } from "@/composables/retainedTask"
 import { HttpStatusCode } from "@/shared/http"
 import { required } from "@/shared/validation"
 import AppPlus from "@/components/basic/AppPlus.vue"
@@ -56,7 +56,7 @@ export default defineComponent({
   setup() {
     const { error } = useContext()
 
-    const retainedTask = useRetainedTask()
+    const retainedTask = inject(retainedTaskKey)!!
 
     const message = ref("")
 
