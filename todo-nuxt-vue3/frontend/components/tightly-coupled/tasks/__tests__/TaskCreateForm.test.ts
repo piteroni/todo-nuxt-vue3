@@ -44,7 +44,7 @@ describe("保有タスクリスト", () => {
   })
 
   it("タスク削除ボタンを押下すると、タスク削除処理を呼ばれる", async () => {
-    const deleteMock = jest.fn()
+    const deleteTaskMock = jest.fn()
 
     const composition = () => useRetainedTask({
       tasks: [
@@ -66,16 +66,10 @@ describe("保有タスクリスト", () => {
     const taskList = mount(TaskList, {
       localVue,
       setup() {
-        provide(retainedTaskKey, composition())
-      },
-      mocks: {
-        $nuxt: {
-          context: {
-            $axios: {
-              $delete: deleteMock
-            }
-          }
-        }
+        provide(retainedTaskKey, {
+          ...composition(),
+          deleteTask: deleteTaskMock
+        })
       }
     })
 
@@ -83,15 +77,8 @@ describe("保有タスクリスト", () => {
 
     await taskList.find(".taskList .task .deleteButton").trigger("click")
 
-    const tasks = taskList.findAll(".taskList .task")
-
     /* 保有タスク削除APIが呼ばれる */
-    expect(deleteMock).toBeCalledTimes(1)
-    expect(deleteMock).toBeCalledWith("/users/current/tasks/20")
-    /* 表示されている保有タスクリストの中から、削除対象のタスクが除去される */
-    expect(tasks.exists()).toBeTruthy()
-    expect(tasks.length).toBe(2)
-    expect(tasks.at(0).text()).toBe("task-21")
-    expect(tasks.at(1).text()).toBe("task-22")
+    expect(deleteTaskMock).toBeCalledTimes(1)
+    expect(deleteTaskMock).toBeCalledWith(20)
   })
 })
