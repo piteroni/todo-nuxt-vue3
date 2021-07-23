@@ -3,7 +3,6 @@ import flushPromises from "flush-promises"
 import { AxiosError } from "axios"
 import { mount } from "@vue/test-utils"
 import { isClass } from "@/shared/util"
-import { CookieScheme } from "@nuxtjs/auth-next"
 
 /**
  * 例外を発生させ、処理を失敗させる.
