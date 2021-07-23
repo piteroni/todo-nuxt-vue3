@@ -51,14 +51,6 @@ describe("保有タスクリスト", () => {
         {
           id: 20,
           name: "task-20"
-        },
-        {
-          id: 21,
-          name: "task-21"
-        },
-        {
-          id: 22,
-          name: "task-22"
         }
       ]
     })
