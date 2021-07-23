@@ -1,5 +1,5 @@
 import { createLocalVue } from "@vue/test-utils"
-import { createSetupHooks } from "@/shared/testing"
+import { createSetupScope } from "@/shared/testing"
 import { useRetainedTask, RetainedTask } from "../retainedTask"
 
 const localVue = createLocalVue()
@@ -13,7 +13,7 @@ describe("保有タスク", () => {
       }
     })
 
-    const setup = createSetupHooks(localVue, done, {
+    const setup = createSetupScope(localVue, done, {
       $nuxt: {
         context: {
           $axios: {
@@ -62,7 +62,7 @@ describe("保有タスク", () => {
       ]
     })
 
-    const setup = createSetupHooks(localVue, done, {
+    const setup = createSetupScope(localVue, done, {
       $nuxt: {
         context: {
           $axios: {
@@ -93,7 +93,7 @@ describe("保有タスク", () => {
   it("保有タスクを削除できる", done => {
     const deleteMock = jest.fn()
 
-    const setup = createSetupHooks(localVue, done, {
+    const setup = createSetupScope(localVue, done, {
       $nuxt: {
         context: {
           $axios: {

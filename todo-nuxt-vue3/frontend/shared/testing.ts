@@ -128,18 +128,24 @@ export class AxiosErrorStub extends Error implements AxiosError {
   }
 }
 
-export const createSetupHooks = (localVue: typeof Vue, done: jest.DoneCallback, mocks = {}) => {
-  return (test: () => Promise<unknown>) => {
+export const createSetupScope = (localVue: typeof Vue, done: jest.DoneCallback, mocks = {}) => {
+  return (test: () => (unknown | Promise<unknown>)): void => {
     const stub = Vue.extend({
       setup() {
-        test().then(() => done()).catch(e => done(e))
+        const callable = test as any
+
+        const result = callable.constructor.name === "AsyncFunction"
+          ? callable().then(() => done()).catch((e: any) => done(e))
+          : callable()
+
+        result.then(() => done()).catch((e: any) => done(e))
 
         return {}
       },
       template: "<div></div>"
     })
 
-    return mount(stub, {
+    mount(stub, {
       localVue,
       mocks
     })
