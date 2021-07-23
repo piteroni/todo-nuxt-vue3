@@ -1,6 +1,9 @@
-import { AxiosError } from "axios"
+import Vue from "vue"
 import flushPromises from "flush-promises"
+import { AxiosError } from "axios"
+import { mount } from "@vue/test-utils"
 import { isClass } from "@/shared/util"
+import { CookieScheme } from "@nuxtjs/auth-next"
 
 /**
  * 例外を発生させ、処理を失敗させる.
@@ -123,5 +126,23 @@ export class AxiosErrorStub extends Error implements AxiosError {
 
   public toJSON() {
     return () => {}
+  }
+}
+
+export const createSetupHooks = (localVue: typeof Vue, done: jest.DoneCallback, mocks = {}) => {
+  return (test: () => Promise<unknown>) => {
+    const stub = Vue.extend({
+      setup() {
+        test().then(() => done()).catch(e => done(e))
+
+        return {}
+      },
+      template: "<div></div>"
+    })
+
+    return mount(stub, {
+      localVue,
+      mocks
+    })
   }
 }
