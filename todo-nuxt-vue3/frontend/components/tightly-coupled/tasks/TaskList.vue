@@ -4,15 +4,15 @@
       タスク一覧
     </p>
 
-    <ul class="ml-6 list-disc">
-      <li v-for="(task, index) in tasks" :key="index" class="mb-2">
+    <ul class="taskList ml-6 list-disc">
+      <li v-for="(task, index) in tasks" :key="index" class="task mb-2">
         <div class="flex">
           <div class="taskName w-96 overflow-hidden">
             {{ task.name }}
           </div>
 
           <div class="my-auto ml-4">
-            <div @click="() => deleteTask(task.id)">
+            <div class="deleteButton" @click="() => deleteTask(task.id)">
               <app-trash />
             </div>
           </div>

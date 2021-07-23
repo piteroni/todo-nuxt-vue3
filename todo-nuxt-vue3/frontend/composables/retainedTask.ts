@@ -10,9 +10,9 @@ interface State {
   tasks: RetainedTask[]
 }
 
-const state: State = reactive({
+const initialState: State = {
   tasks: []
-})
+}
 
 const fetch = (state: State, $axios: NuxtAxiosInstance) => async () => {
   const tasks = await $axios.$get<RetainedTask[]>("/users/current/tasks")
@@ -21,19 +21,21 @@ const fetch = (state: State, $axios: NuxtAxiosInstance) => async () => {
 }
 
 const createTask = (state: State, $axios: NuxtAxiosInstance) => async (taskName: string) => {
-  const response = await $axios.post<{id: number, name: string}>("/users/current/tasks", { name: taskName })
+  const response = await $axios.$post<{id: number, name: string}>("/users/current/tasks", { name: taskName })
 
-  state.tasks.push(response.data)
+  state.tasks.push(response)
 }
 
 const deleteTask = (state: State, $axios: NuxtAxiosInstance) => async (id: number) => {
-  await $axios.delete(`/users/current/tasks/${id}`)
+  await $axios.$delete(`/users/current/tasks/${id}`)
 
   state.tasks = state.tasks.filter(task => task.id !== id)
 }
 
-export function useRetainedTask() {
+export function useRetainedTask(initial = initialState) {
   const { $axios } = useContext()
+
+  const state: State = reactive(initial)
 
   return {
     tasks: computed(() => state.tasks),
